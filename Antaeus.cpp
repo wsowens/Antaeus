@@ -1,11 +1,11 @@
 #include <iostream>
-#include <SDL2/SDL.h>
-
-
 #include <complex>
+#include <SDL2/SDL.h>
+#include "Camera.h"
 
-#define SCREEN_WIDTH 2560
-#define SCREEN_HEIGHT 1440
+
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 900
 
 
 SDL_Window * init()
@@ -83,31 +83,26 @@ int main(int argc, char** args)
         SDL_RenderFillRect(mainRenderer, &tempRect);
     }
 
-
     double maxX = 2.2;
     double maxY = maxX * SCREEN_HEIGHT /  SCREEN_WIDTH;
     double minX = maxX * -1;
     double minY = maxY * -1;
+
+
+	Camera cam(maxX, maxY, maxX * 2 / SCREEN_WIDTH);
     //should i use matrices?
     for (int x = 0; x < SCREEN_WIDTH; x++)
     {
         for (int y = 0; y < SCREEN_HEIGHT; y++)
         {
-            double funcY = maxY - (double)(y) / SCREEN_HEIGHT * (maxY - minY);
-            double funcX = minX + (double)(x) / SCREEN_WIDTH  * (maxX - minX);
-            std::complex<double> value(funcX, funcY);
-            int iterations = getDivergence(value, 20);
-            std::cout << iterations;
+            int iterations = getDivergence(cam.transform(x, y), 20);
+            //std::cout << iterations;
             SDL_Color color = getColor(iterations);
             SDL_SetRenderDrawColor(mainRenderer, color.r, color.g, color.b, 0xFF);
             SDL_RenderDrawPoint(mainRenderer, x, y);
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
     }
-
-
-
-
 
     SDL_RenderPresent(mainRenderer);
     SDL_Delay(10000);

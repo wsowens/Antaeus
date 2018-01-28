@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = Antaeus.cpp
+OBJS = Antaeus.cpp Camera.cpp
 #The different compilers used. Change these to the appropriate paths as you need.
 Win64_Compiler = x86_64-w64-mingw32-g++
 Win32_Compiler = i686-w64-mingw32-g++
