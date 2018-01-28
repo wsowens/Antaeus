@@ -4,11 +4,11 @@
 A quick Mandelbrot Set renderer. I may add more later.
 
 ## Controls
-[ : DECREASE NUMBER OF ITERATIONS
-] : INCREASE NUMBER OF ITERATIONS
-Up, Down, Left, Right: Pan
-+ : zoom in
-- : zoom out
+* [ : Decrease number of iterations
+* ] : Increase number of iterations
+* Arrow Keys: Pan camera
+* Plus : Zoom in
+* Minus : Zoom out
 
 ## Ideas to fix current slowness:
 Effectively make use of GPU

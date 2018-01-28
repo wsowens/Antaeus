@@ -7,8 +7,6 @@
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 900
 
-
-
 class WindowWrapper {
     private:
         SDL_Window * window;
