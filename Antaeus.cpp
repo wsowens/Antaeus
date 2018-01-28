@@ -8,6 +8,20 @@
 #define SCREEN_HEIGHT 900
 
 
+
+class WindowWrapper {
+    private:
+        SDL_Window * window;
+
+    ~WindowWrapper()
+    {
+        if (window != NULL)
+            SDL_DestroyWindow(window);
+        window = NULL;
+    }
+};
+
+
 SDL_Window * init()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -75,6 +89,7 @@ int main(int argc, char** args)
 
     SDL_SetRenderDrawColor(mainRenderer, 0, 0, 0, 0xFF);
     SDL_RenderClear(mainRenderer);
+
     for (int i = 0; i < 20; i++)
     {
         SDL_Color temp = getColor(i);
@@ -85,26 +100,84 @@ int main(int argc, char** args)
 
     double maxX = 2.2;
     double maxY = maxX * SCREEN_HEIGHT /  SCREEN_WIDTH;
-    double minX = maxX * -1;
-    double minY = maxY * -1;
 
 
-	Camera cam(maxX, maxY, maxX * 2 / SCREEN_WIDTH);
-    //should i use matrices?
-    for (int x = 0; x < SCREEN_WIDTH; x++)
+	Camera cam(maxX, maxY, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+
+    SDL_Event e;
+
+    bool quit = false;
+    bool updateRender = true;
+    int maxIterations = 10;
+    while (!quit)
     {
-        for (int y = 0; y < SCREEN_HEIGHT; y++)
+        while (SDL_PollEvent(&e) != 0)
         {
-            int iterations = getDivergence(cam.transform(x, y), 20);
-            //std::cout << iterations;
-            SDL_Color color = getColor(iterations);
-            SDL_SetRenderDrawColor(mainRenderer, color.r, color.g, color.b, 0xFF);
-            SDL_RenderDrawPoint(mainRenderer, x, y);
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                updateRender = true;
+                switch (e.key.keysym.sym)
+                {
+                    case SDLK_EQUALS:
+                        cam.modZoom(.90);
+                        updateRender = true;
+                        break;
+                    case SDLK_MINUS:
+                        cam.modZoom(1.10);
+                        break;
+                    case SDLK_UP:
+                        cam.panY(15);
+                        break;
+                    case SDLK_DOWN:
+                        cam.panY(-15);
+                        break;
+                    case SDLK_LEFT:
+                        cam.panX(15);
+                        break;
+                    case SDLK_RIGHT:
+                        cam.panX(-15);
+                        break;
+                    case SDLK_RIGHTBRACKET:
+                        maxIterations+=2;
+                        break;
+                    case SDLK_LEFTBRACKET:
+                        maxIterations-=2;
+                        break;
+                    default:
+                        updateRender = false;
+                }
+            }
         }
-        //std::cout << std::endl;
-    }
 
-    SDL_RenderPresent(mainRenderer);
-    SDL_Delay(10000);
+        if (updateRender)
+        {
+            //should i use matrices?
+            for (int x = 0; x < SCREEN_WIDTH; x++)
+            {
+                for (int y = 0; y < SCREEN_HEIGHT; y++)
+                {
+                    int iterations = getDivergence(cam.transform(x, y), maxIterations);
+                    //std::cout << iterations;
+                    if (iterations == maxIterations)
+                        SDL_SetRenderDrawColor(mainRenderer, 0, 0, 0, 0xFF);
+                    else
+                    {
+                        SDL_Color color = getColor(iterations);
+                        SDL_SetRenderDrawColor(mainRenderer, color.r, color.g, color.b, 0xFF);
+                    }
+                    SDL_RenderDrawPoint(mainRenderer, x, y);
+                }
+                //std::cout << std::endl;
+            }
+            SDL_RenderPresent(mainRenderer);
+            updateRender = false;
+        }
+
+    }
     SDL_DestroyWindow(mainWindow);
 }

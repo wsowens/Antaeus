@@ -1,15 +1,16 @@
 #include <complex>
-
+#include <iostream>
 #ifndef CAMERA_H
 #define CAMERA_H
 
 class Camera
 {
 
-	//aspect ratio is always such that 1 unit x : 1 unit
+	//aspect ratio is always square
 	private:
-		//const int maxWidth;
-		//const int maxHeight;
+		int width;
+		int height;
+
 		double zoom;
 
 	//coordinates of the top right of the camera field
@@ -18,12 +19,13 @@ class Camera
 
 	public:
 
-		Camera(double startX, double startY, double startZoom);
+		Camera(double minX, double minY, int width, int height);
 
 		std::complex<double> transform(int inputX, int inputY);
 
-		void incrementZoom();
-		//TODO: overload the operators
+		void modZoom(float zoomLevel);
+		void panX(int amount);
+		void panY(int amount);
 };
 
 #endif
