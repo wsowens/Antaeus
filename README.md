@@ -10,6 +10,9 @@ A quick Mandelbrot Set renderer. I may add more later.
 * Plus : Zoom in
 * Minus : Zoom out
 
+## Configuration
+Add any whitespace separated hex values to a file called "COLORS". "COLORS" should be located in the same directory as your executable. A sample COLORS file has been provided.
+
 ## Ideas to fix current slowness:
 Effectively make use of GPU
 Find alternative ways of rendering (RGB maps?)

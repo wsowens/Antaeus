@@ -10,7 +10,6 @@ Camera::Camera(double maxX, double maxY, int width, int height)
 
 	//zoom calculation done off of width: graph assumed square, centered at origin
 	zoom = x * 2 / width;
-	std::cout << zoom << std::endl;
 }
 
 std::complex<double> Camera::transform(int inputX, int inputY)

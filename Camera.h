@@ -1,5 +1,4 @@
 #include <complex>
-#include <iostream>
 #ifndef CAMERA_H
 #define CAMERA_H
 
