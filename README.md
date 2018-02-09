@@ -3,6 +3,12 @@
 
 A quick Mandelbrot Set renderer. I may add more later.
 
+## Screenshots
+![rainbow.png](images/rainbow.png)
+
+![gradient.png](images/grey.png)
+
+
 ## Controls
 * [ : Decrease number of iterations
 * ] : Increase number of iterations
@@ -14,7 +20,8 @@ A quick Mandelbrot Set renderer. I may add more later.
 Add any whitespace separated hex values to a file called "COLORS". "COLORS" should be located in the same directory as your executable. A sample COLORS file has been provided.
 
 ## Ideas to fix current slowness:
-Effectively make use of GPU
-Find alternative ways of rendering (RGB maps?)
-Optimize the algorithms involved
-Save screen as texture, manipulate texture as you can
+* Effectively make use of GPU
+* Find alternative ways of rendering (RGB maps?)
+* Optimize the algorithms involved
+* Save screen as texture, manipulate texture as you can
+
